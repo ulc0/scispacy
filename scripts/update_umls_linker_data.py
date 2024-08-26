@@ -9,7 +9,15 @@
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl
+# MAGIC ls -ll /dbfs/kb
+# MAGIC 3mkdir /dbfs/kb/jsonl
+# MAGIC ls -ll /dbfs/kb/jsonl
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC #python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl
+# MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /dbfs/kb/jsonl/umls_kb.jsonl
 # MAGIC
 
 # COMMAND ----------
@@ -22,7 +30,10 @@
 from scispacy.candidate_generation import create_tfidf_ann_index
 from scispacy.linking_utils import KnowledgeBase
 kb_path='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl'
+kb_path='/dbfs/kb/jsonl/umls_kb.jsonl'
 output_path='/dbfs/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
+output_path='abfss://cdh@davsynapseanalyticsdev.dfs.core.windows.net/cdh/machinelearning/scispacy/kbs/umls_kb.jsonl'
+output_path='/dbfs/kb/'
 
 # COMMAND ----------
 
