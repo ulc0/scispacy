@@ -42,14 +42,25 @@ kb = KnowledgeBase(file_path=kb_path)
 
 # COMMAND ----------
 
+import unittest
+import tempfile
+from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index, MentionCandidate
+
+with tempfile.TemporaryDirectory() as dir_name:
+    umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(dir_name, kb)
+
+
+# COMMAND ----------
+
 import os
 from scispacy.candidate_generation import create_tfidf_ann_index
 
-output_path='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
-output_path='abfss://cdh@davsynapseanalyticsdev.dfs.core.windows.net/machinelearning/scispacy/kbs'
+output_path='dbfs:/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
+#output_path='abfss://cdh@davsynapseanalyticsdev.dfs.core.windows.net/machinelearning/scispacy/kbs'
 #output_path='/dbfs/kb'
 #output_path='/Workspace/CDH'
 #output_path='/Workspace/Shared/scispacy'
-#s.makedirs(output_path, exist_ok=True)
+#os.makedirs(output_path, exist_ok=True)
+output_path='.'
 
 create_tfidf_ann_index(output_path, kb)
