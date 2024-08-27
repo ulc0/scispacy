@@ -45,10 +45,11 @@ kb = KnowledgeBase(file_path=kb_path)
 import os
 from scispacy.candidate_generation import create_tfidf_ann_index
 
-output_path='/dbfs/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
-output_path='/dbfs/kb'
-output_path='/Workspace/CDH'
-output_path='/Workspace/Shared/scispacy'
-os.makedirs(output_path, exist_ok=True)
+output_path='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
+output_path='abfss://cdh@davsynapseanalyticsdev.dfs.core.windows.net/machinelearning/scispacy/kbs'
+#output_path='/dbfs/kb'
+#output_path='/Workspace/CDH'
+#output_path='/Workspace/Shared/scispacy'
+#s.makedirs(output_path, exist_ok=True)
 
 create_tfidf_ann_index(output_path, kb)
