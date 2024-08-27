@@ -1,4 +1,10 @@
 # Databricks notebook source
+# MAGIC %pip freeze
+# MAGIC %pip install scipy==1.10.1
+# MAGIC %restart_python
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC umls download path  
 # MAGIC /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META/ 
@@ -10,7 +16,7 @@
 
 # MAGIC %sh
 # MAGIC ls -ll /dbfs/kb
-# MAGIC 3mkdir /dbfs/kb/jsonl
+# MAGIC #mkdir /dbfs/kb/jsonl
 # MAGIC ls -ll /dbfs/kb/jsonl
 
 # COMMAND ----------
@@ -27,22 +33,22 @@
 
 # COMMAND ----------
 
-from scispacy.candidate_generation import create_tfidf_ann_index
+
 from scispacy.linking_utils import KnowledgeBase
 kb_path='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl'
 kb_path='/dbfs/kb/jsonl/umls_kb.jsonl'
-output_path='/dbfs/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
-output_path='abfss://cdh@davsynapseanalyticsdev.dfs.core.windows.net/cdh/machinelearning/scispacy/kbs/umls_kb.jsonl'
-output_path='/dbfs/kb/'
 
-# COMMAND ----------
-
-
-#os.makedirs(output_path, exist_ok=True)
 kb = KnowledgeBase(file_path=kb_path)
 
-
-
 # COMMAND ----------
+
+import os
+from scispacy.candidate_generation import create_tfidf_ann_index
+
+output_path='/dbfs/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
+output_path='/dbfs/kb'
+output_path='/Workspace/CDH'
+output_path='/Workspace/Shared/scispacy'
+os.makedirs(output_path, exist_ok=True)
 
 create_tfidf_ann_index(output_path, kb)
