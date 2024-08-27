@@ -42,7 +42,6 @@ kb = KnowledgeBase(file_path=kb_path)
 
 # COMMAND ----------
 
-import unittest
 import tempfile
 from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index, MentionCandidate
 
