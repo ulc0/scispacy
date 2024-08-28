@@ -44,10 +44,22 @@ kb = KnowledgeBase(file_path=kb_path)
 
 import tempfile
 from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index, MentionCandidate
+import tempfile
 
-with tempfile.TemporaryDirectory() as dir_name:
-    umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(dir_name, kb)
+temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
+print(temp_dir)
+# use temp_dir, and when done:
+#temp_dir.cleanup()
+#with tempfile.TemporaryDirectory() as dir_name:
+umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(temp_dir, kb)
+dbutils.ls(temp_dir)
+dbtuils.cp(temp_dir+'/concept_aliases.json','/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/' )
+dbtuils.cp(temp_dir+'/tfidf_vectors_sparse.npz','/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/' )
 
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC ls -ll /tmp/tmp82wfypv7
 
 # COMMAND ----------
 
