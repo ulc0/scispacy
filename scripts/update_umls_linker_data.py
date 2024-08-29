@@ -59,10 +59,21 @@ umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(temp_
 
 # COMMAND ----------
 
+"""
+    tfidf_vectorizer_path = f"{out_path}/tfidf_vectorizer.joblib"
+    ann_index_path = f"{out_path}/nmslib_index.bin"
+    tfidf_vectors_path = f"{out_path}/tfidf_vectors_sparse.npz"
+    umls_concept_aliases_path = f"{out_path}/concept_aliases.json"
+"""
+
+# COMMAND ----------
+
 # MAGIC %sh
-# MAGIC cd /tmp/tmppc1_fdto
+# MAGIC cd /tmp/tmpazmsqksw
 # MAGIC cp concept_aliases.json /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
 # MAGIC cp tfidf_vectors_sparse.npz /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
+# MAGIC cp tfidf_vectorizer.joblib /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
+# MAGIC cp nmslib_index.bin /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
 
 # COMMAND ----------
 
