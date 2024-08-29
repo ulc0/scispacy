@@ -1,5 +1,6 @@
 # Databricks notebook source
-# MAGIC %pip freeze
+# MAGIC %md
+# MAGIC freeze
 # MAGIC %pip install scipy==1.10.1
 # MAGIC %restart_python
 
@@ -15,16 +16,9 @@
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC ls -ll /dbfs/kb
-# MAGIC #mkdir /dbfs/kb/jsonl
-# MAGIC ls -ll /dbfs/kb/jsonl
-
-# COMMAND ----------
-
-# MAGIC %sh
 # MAGIC #python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl
-# MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /dbfs/kb/jsonl/umls_kb.jsonl
-# MAGIC
+# MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl
+# MAGIC python3 export_rxnorm_json.py --meta_pat/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/rxnorm/rrf/ --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/rxnorm_kb.jsonl
 
 # COMMAND ----------
 
