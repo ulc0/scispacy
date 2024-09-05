@@ -6,6 +6,21 @@
 
 # COMMAND ----------
 
+
+from scispacy.linking_utils import KnowledgeBase
+from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index
+from scispacy.linking import EntityLinker
+from scispacy.umls_utils import UmlsKnowledgeBase
+from scispacy.abbreviation import AbbreviationDetector
+
+#import scispacy.linking_utils as linking_utils 
+#import scispacy.candidate_generation as candidate_generation
+#import scispacy.umls_utils as umls_utils
+#import scispacy.linking as linking
+
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC umls download path  
 # MAGIC /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META/ 
@@ -42,17 +57,7 @@ out_dir=base_dir+'linker/umls/'
 
 # COMMAND ----------
 
-
-from scispacy.linking_utils import KnowledgeBase
-from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index
-from scispacy.linking import EntityLinker
-from scispacy.umls_utils import UmlsKnowledgeBase
-from scispacy.abbreviation import AbbreviationDetector
-
-#import scispacy.linking_utils as linking_utils 
-#import scispacy.candidate_generation as candidate_generation
-#import scispacy.umls_utils as umls_utils
-#import scispacy.linking as linking
+# https://learn.microsoft.com/en-us/azure/databricks/files/
 kb_path=f"{base_dir}jsonl/umls_kb.jsonl"
 kb = KnowledgeBase(file_path=kb_path)
 
@@ -124,7 +129,7 @@ dbutils.fs.ls(out_dir)
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
+# MAGIC ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/umls
 
 # COMMAND ----------
 
