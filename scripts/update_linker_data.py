@@ -67,6 +67,7 @@ print(temp_dir)
 # use temp_dir, and when done:
 umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(temp_dir, kb)
 os.environ["TEMP_DIR"]=temp_dir
+"""
 ls -ll temp_dir 
 cd temp_dir
 #cp concept_aliases.json /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
@@ -75,7 +76,7 @@ cd temp_dir
 #cp nmslib_index.bin /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 cp * /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-
+"""
 
 # COMMAND ----------
 
