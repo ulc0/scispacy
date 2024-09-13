@@ -32,7 +32,7 @@ from scispacy.abbreviation import AbbreviationDetector
 
 # MAGIC %sh
 # MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl
-# MAGIC #python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/rxnorm/rrf/ --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/rxnorm_kb.jsonl
+# MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/rxnorm/rrf/ --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/rxnorm_kb.jsonl
 
 # COMMAND ----------
 
