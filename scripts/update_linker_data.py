@@ -30,7 +30,17 @@ from scispacy.abbreviation import AbbreviationDetector
 
 # COMMAND ----------
 
-# MAGIC %sh
+base_dir='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/'
+out_dir=base_dir+'linker/umls/'
+
+# COMMAND ----------
+
+from export_umls_json import main as export_umls_json
+export_umls_json(meta_path=f"{base_dir}2024AA/META",output_path=f"{base_dir}jsonl/umls_kb.jsonl")
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl
 # MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/rxnorm/rrf/ --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/rxnorm_kb.jsonl
 
@@ -49,11 +59,6 @@ proformaLinkerPaths = {
     concept_aliases_list="https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/data/linkers/2023-04-23/umls/concept_aliases.json",  # noqa
 }
 """
-
-# COMMAND ----------
-
-base_dir='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/'
-out_dir=base_dir+'linker/umls/'
 
 # COMMAND ----------
 
@@ -82,6 +87,11 @@ cd temp_dir
 cp * /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 """
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/umls
 
 # COMMAND ----------
 
@@ -128,10 +138,16 @@ dbutils.fs.ls(out_dir)
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/umls
+import os
+from scispacy.candidate_generation import create_tfidf_ann_index
+
+output_path='dbfs:/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
+
+
+create_tfidf_ann_index(output_path, kb)
 
 # COMMAND ----------
+
 """
 from scispacy.candidate_generation import LinkerPaths
 UmlsLinkerPaths = LinkerPaths(
@@ -146,29 +162,3 @@ UmlsLinkerPaths = LinkerPaths(
 
 # MAGIC %sh
 # MAGIC ls /tmp
-
-# COMMAND ----------
-
-output_path='dbfs:/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
-#output_path='abfss://cdh@davsynapseanalyticsdev.dfs.core.windows.net/machinelearning/scispacy/kbs'
-#output_path='/dbfs/kb'
-#output_path='/Workspace/CDH'
-#output_path='/Workspace/Shared/scispacy'
-#os.makedirs(output_path, exist_ok=True)
-output_path='.'
-
-
-# COMMAND ----------
-
-import os
-from scispacy.candidate_generation import create_tfidf_ann_index
-
-output_path='dbfs:/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
-#output_path='abfss://cdh@davsynapseanalyticsdev.dfs.core.windows.net/machinelearning/scispacy/kbs'
-#output_path='/dbfs/kb'
-#output_path='/Workspace/CDH'
-#output_path='/Workspace/Shared/scispacy'
-#os.makedirs(output_path, exist_ok=True)
-output_path='.'
-
-create_tfidf_ann_index(output_path, kb)
