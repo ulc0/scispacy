@@ -60,37 +60,33 @@ kb = KnowledgeBase(file_path=kb_path)
 
 # COMMAND ----------
 
-import tempfile
-from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index, MentionCandidate
-import tempfile
- 
-temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
-print(temp_dir)
-# use temp_dir, and when done:
-umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(temp_dir, kb)
-create_tfidf_ann_index(temp_dir, kb)
-os.environ["TEMP_DIR"]=temp_dir
-"""
-ls -ll temp_dir 
-cd temp_dir
-#cp concept_aliases.json /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-#cp tfidf_vectors_sparse.npz /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-#cp tfidf_vectorizer.joblib /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-#cp nmslib_index.bin /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-cp * /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-"""
+#TODO should we save the KnowledgeBase in kb ?
 
 # COMMAND ----------
 
-# MAGIC %sh
+from create_linker import main as create_linker
+create_linker(kb,out_dir)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC import tempfile
+# MAGIC from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index, MentionCandidate
+# MAGIC import tempfile
+# MAGIC  
+# MAGIC # use temp_dir, and when done copy:
+# MAGIC temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
+# MAGIC os.environ["TEMP_DIR"]=temp_dir
+# MAGIC print(temp_dir)
+# MAGIC umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(temp_dir, kb)
+# MAGIC create_tfidf_ann_index(temp_dir, kb)
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ls -ll $OUT_DIR
 # MAGIC ls -ll $TEMP_DIR 
 # MAGIC cd $TEMP_DIR
-# MAGIC #cp concept_aliases.json /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-# MAGIC #cp tfidf_vectors_sparse.npz /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-# MAGIC #cp tfidf_vectorizer.joblib /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-# MAGIC #cp nmslib_index.bin /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 # MAGIC cp * $OUT_DIR
 # MAGIC ls $OUT_DIR
 # MAGIC
