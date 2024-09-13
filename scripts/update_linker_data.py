@@ -56,16 +56,12 @@ export_umls_json(meta_path=f"{base_dir}2024AA/META",output_path=f"{base_dir}json
 
 # https://learn.microsoft.com/en-us/azure/databricks/files/
 kb_path=f"{base_dir}jsonl/umls_kb.jsonl"
-kb = KnowledgeBase(file_path=kb_path)
-
-# COMMAND ----------
-
-#TODO should we save the KnowledgeBase in kb ?
+# this is done in create_linker kb = KnowledgeBase(file_path=kb_path)
 
 # COMMAND ----------
 
 from create_linker import main as create_linker
-create_linker(kb,out_dir)
+create_linker(kb_path,out_dir)
 
 # COMMAND ----------
 
