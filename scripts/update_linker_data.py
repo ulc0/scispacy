@@ -21,33 +21,20 @@ from scispacy.abbreviation import AbbreviationDetector
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC umls download path  
-# MAGIC /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META/ 
-# MAGIC json path   
-# MAGIC /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/  
-# MAGIC * 
-
-# COMMAND ----------
-
+import os
 base_dir='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/'
 out_dir=base_dir+'linker/umls/'
+os.environ["OUT_DIR"]=out_dir
+
 
 # COMMAND ----------
 
-from export_umls_json import main as export_umls_json
-export_umls_json(meta_path=f"{base_dir}2024AA/META",output_path=f"{base_dir}jsonl/umls_kb.jsonl")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/2024AA/META --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl
-# MAGIC python3 export_umls_json.py --meta_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/rxnorm/rrf/ --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/rxnorm_kb.jsonl
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC python3 create_linker.py --kb_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/umls_kb.jsonl --output_path /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl
+"""
+    tfidf_vectorizer_path = f"{out_dir}/tfidf_vectorizer.joblib"
+    ann_index_path = f"{out_dir}/nmslib_index.bin"
+    tfidf_vectors_path = f"{out_dir}/tfidf_vectors_sparse.npz"
+    concept_aliases_path = f"{out_dir}/concept_aliases.json"
+"""
 
 # COMMAND ----------
 
@@ -62,13 +49,18 @@ proformaLinkerPaths = {
 
 # COMMAND ----------
 
+from export_umls_json import main as export_umls_json
+export_umls_json(meta_path=f"{base_dir}2024AA/META",output_path=f"{base_dir}jsonl/umls_kb.jsonl")
+
+# COMMAND ----------
+
 # https://learn.microsoft.com/en-us/azure/databricks/files/
 kb_path=f"{base_dir}jsonl/umls_kb.jsonl"
 kb = KnowledgeBase(file_path=kb_path)
 
 # COMMAND ----------
 
-import tempfile, os
+import tempfile
 from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index, MentionCandidate
 import tempfile
  
@@ -76,6 +68,7 @@ temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
 print(temp_dir)
 # use temp_dir, and when done:
 umls_concept_aliases, tfidf_vectorizer, ann_index = create_tfidf_ann_index(temp_dir, kb)
+create_tfidf_ann_index(temp_dir, kb)
 os.environ["TEMP_DIR"]=temp_dir
 """
 ls -ll temp_dir 
@@ -91,74 +84,13 @@ ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/umls
-
-# COMMAND ----------
-
-"""
-dbutils.fs.ls(temp_dir)
-dbutils.fs.cp(temp_dir+'/concept_aliases.json',out_dir)
-dbutils.fs.cp(temp_dir+'/tfidf_vectors_sparse.npz',out_dir )
-dbutils.fs.cp(temp_dir+'/tfidf_vectorizer.joblib',out_dir )
-dbutils.fs.cp(temp_dir+'/nmslib_index.bin',out_dir )
-dbutils.fs.ls(out_dir)
-"""
-
-
-# COMMAND ----------
-
-# MAGIC %sh
+# MAGIC ls -ll $OUT_DIR
 # MAGIC ls -ll $TEMP_DIR 
 # MAGIC cd $TEMP_DIR
 # MAGIC #cp concept_aliases.json /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 # MAGIC #cp tfidf_vectors_sparse.npz /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 # MAGIC #cp tfidf_vectorizer.joblib /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
 # MAGIC #cp nmslib_index.bin /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-# MAGIC cp * /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
-# MAGIC ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/linker/umls/
+# MAGIC cp * $OUT_DIR
+# MAGIC ls $OUT_DIR
 # MAGIC
-
-# COMMAND ----------
-
-"""
-    tfidf_vectorizer_path = f"{out_path}/tfidf_vectorizer.joblib"
-    ann_index_path = f"{out_path}/nmslib_index.bin"
-    tfidf_vectors_path = f"{out_path}/tfidf_vectors_sparse.npz"
-    umls_concept_aliases_path = f"{out_path}/concept_aliases.json"
-"""
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC cd /tmp/tmpazmsqksw
-# MAGIC cp concept_aliases.json /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
-# MAGIC cp tfidf_vectors_sparse.npz /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
-# MAGIC cp tfidf_vectorizer.joblib /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
-# MAGIC cp nmslib_index.bin /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/
-
-# COMMAND ----------
-
-import os
-from scispacy.candidate_generation import create_tfidf_ann_index
-
-output_path='dbfs:/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
-
-
-create_tfidf_ann_index(output_path, kb)
-
-# COMMAND ----------
-
-"""
-from scispacy.candidate_generation import LinkerPaths
-UmlsLinkerPaths = LinkerPaths(
-    ann_index="nmslib_index.bin",  # noqa
-    tfidf_vectorizer="tfidf_vectorizer.joblib",  # noqa
-    tfidf_vectors="tfidf_vectors_sparse.npz",  # noqa
-    concept_aliases_list="concept_aliases.json",  # noqa
-)
-""""
-
-# COMMAND ----------
-
-# MAGIC %sh
-# MAGIC ls /tmp
