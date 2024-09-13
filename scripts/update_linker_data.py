@@ -132,7 +132,7 @@ dbutils.fs.ls(out_dir)
 # MAGIC ls /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/umls
 
 # COMMAND ----------
-
+"""
 from scispacy.candidate_generation import LinkerPaths
 UmlsLinkerPaths = LinkerPaths(
     ann_index="nmslib_index.bin",  # noqa
@@ -140,7 +140,7 @@ UmlsLinkerPaths = LinkerPaths(
     tfidf_vectors="tfidf_vectors_sparse.npz",  # noqa
     concept_aliases_list="concept_aliases.json",  # noqa
 )
-
+""""
 
 # COMMAND ----------
 
@@ -171,4 +171,4 @@ output_path='dbfs:/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl'
 #os.makedirs(output_path, exist_ok=True)
 output_path='.'
 
-#create_tfidf_ann_index(output_path, kb)
+create_tfidf_ann_index(output_path, kb)
