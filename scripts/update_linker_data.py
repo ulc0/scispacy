@@ -23,7 +23,7 @@ from scispacy.abbreviation import AbbreviationDetector
 
 import os
 base_dir='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/'
-out_dir=base_dir+'linker/umls/'
+out_dir=base_dir+'linker/umls'
 os.environ["OUT_DIR"]=out_dir
 
 
