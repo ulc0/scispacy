@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %pip freeze
-# MAGIC %pip install -r /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/compute/requirements_scispacy_support.txt
-# MAGIC %pip install scipy==1.10.1
-# MAGIC %restart_python
+# MAGIC #%pip install -r /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/compute/requirements_scispacy_support.txt
+# MAGIC #%pip install scipy==1.10.1
+# MAGIC #%restart_python
 
 # COMMAND ----------
 
@@ -21,7 +21,11 @@ from scispacy.abbreviation import AbbreviationDetector
 
 # COMMAND ----------
 
-import os
+import os, tempfile
+
+temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
+print(temp_dir)
+os.environ["TEMP_DIR"]=temo_dir
 base_dir='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/'
 out_dir=base_dir+'linker/umls'
 os.environ["OUT_DIR"]=out_dir
@@ -61,7 +65,14 @@ kb_path=f"{base_dir}jsonl/umls_kb.jsonl"
 # COMMAND ----------
 
 from create_linker import main as create_linker
-create_linker(kb_path,out_dir)
+create_linker(kb_path,temp_dir)
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC cd $TEMP_DIR
+# MAGIC cp * $OUT_DIR
+# MAGIC ls $OUT_DIR
 
 # COMMAND ----------
 
