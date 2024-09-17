@@ -75,7 +75,7 @@ RxNormLinkerPaths = LinkerPaths(
     concept_aliases_list="https://ai2-s2-scispacy.s3-us-west-2.amazonaws.com/data/linkers/2023-04-23/rxnorm/concept_aliases.json",  # noqa
 )
 
-
+UmlsKnowledgeBase
 DEFAULT_PATHS: Dict[str, LinkerPaths] = {
     "umls": UmlsLinkerPaths,
     "mesh": MeshLinkerPaths,

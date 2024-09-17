@@ -1,7 +1,7 @@
 from typing import Optional, List, Dict
 
 # TODO(Mark): Remove in scispacy v1.0, for backward compatability only.
-from scispacy.linking_utils import Entity as RxNorm # noqa
+from scispacy.linking_utils import Entity as RxNormEntity, RxNormKnowledgeBase  # noqa
 
 # preferred definition sources (from S2)
 DEF_SOURCES_PREFERRED = {"NCI_BRIDG", "NCI_NCI-GLOSS", "NCI", "GO", "MSH", "NCI_FDA"}
@@ -65,8 +65,25 @@ def read_umls_concepts(
         lang: An optional language identifier, used to filter terms by language
         non_suppressed: flag to indicate whether only non-suppressed concepts should be kept
     """
-    concepts_filename = "MRCONSO.RRF"
-    headers = read_umls_file_headers(meta_path, concepts_filename)
+    concepts_filename = "RXNCONSO.RRF"
+    headers =     ["RXCUI",             
+   "LAT"    ,          
+   "TS"      ,      
+   "LUI"      ,       
+   "STT"       ,       
+   "SUI"        ,     
+   "ISPREF"      ,     
+   "RXAUI"        ,     
+   "SAUI"          ,    
+   "SCUI"           , 
+   "SDUI"            ,  
+   "SAB"              ,
+   "TTY"          ,
+   "CODE"          ,   
+   "STR"            ,  
+   "SRL"             , 
+   "SUPPRESS"         , 
+   "CVF"             ]
     with open(f"{meta_path}/{concepts_filename}", encoding="utf-8") as fin:
         for line in fin:
             splits = line.strip().split("|")
@@ -81,7 +98,7 @@ def read_umls_concepts(
                 if concept["SAB"] != source:
                     continue
 
-            concept_id = concept["CUI"]
+            concept_id = concept["RXCUI"]
             if concept_id not in concept_details:  # a new concept
                 # add it to the dictionary with an empty list of aliases and types
                 concept_details[concept_id] = {
@@ -122,15 +139,21 @@ def read_umls_types(meta_path: str, concept_details: Dict):
         meta_path: path to the META directory of an UMLS release
         concept_details: a dictionary to be filled with concept informations
     """
-    types_filename = "MRSTY.RRF"
-    headers = read_umls_file_headers(meta_path, types_filename)
+    types_filename = "RXNSTY.RRF"
+    #headers = read_umls_file_headers(meta_path, types_filename)
+    headers=[   "RXCUI",
+   "TUI",
+   "STN",
+   "STY",
+   "ATUI",
+   "CVF",]
     with open(f"{meta_path}/{types_filename}", encoding="utf-8") as fin:
         for line in fin:
             splits = line.strip().split("|")
             assert len(headers) == len(splits)
             concept_type = dict(zip(headers, splits))
 
-            concept = concept_details.get(concept_type["CUI"])
+            concept = concept_details.get(concept_type["RXCUI"])
             if (
                 concept is not None
             ):  # a small number of types are for concepts that don't exist
@@ -150,8 +173,21 @@ def read_umls_definitions(meta_path: str, concept_details: Dict):
         meta_path: path to the META directory of an UMLS release
         concept_details: a dictionary to be filled with concept informations
     """
-    definitions_filename = "MRDEF.RRF"
-    headers = read_umls_file_headers(meta_path, definitions_filename)
+    definitions_filename = "RXNSAT.RRF"
+#    headers = read_umls_file_headers(meta_path, definitions_filename)
+    headers=["RXCUI",       
+"LUI",   
+"SUI",     
+"RXAUI",  
+"STYPE",
+"CODE" ,
+"ATUI", 
+"SATUI", 
+"ATN", 
+"SAB", 
+"ATV", 
+"SUPPRESS",
+"CVF",]
     with open(f"{meta_path}/{definitions_filename}", encoding="utf-8") as fin:
         headers = read_umls_file_headers(meta_path, definitions_filename)
         for line in fin:
@@ -162,7 +198,7 @@ def read_umls_definitions(meta_path: str, concept_details: Dict):
             if definition["SUPPRESS"] != "N":
                 continue
             is_from_preferred_source = definition["SAB"] in DEF_SOURCES_PREFERRED
-            concept = concept_details.get(definition["CUI"])
+            concept = concept_details.get(definition["RXCUI"])
             if (
                 concept is None
             ):  # a small number of definitions are for concepts that don't exist
@@ -173,7 +209,7 @@ def read_umls_definitions(meta_path: str, concept_details: Dict):
                 or is_from_preferred_source
                 and concept["is_from_preferred_source"] == "N"
             ):
-                concept["definition"] = definition["DEF"]
+                concept["definition"] = definition["CODE"]
                 concept["is_from_preferred_source"] = (
                     "Y" if is_from_preferred_source else "N"
                 )

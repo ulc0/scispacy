@@ -13,5 +13,6 @@ graph LR
     create_tfidf_ann_index
     end
 
+INSERT INTO RXNCONSO (RXCUI, LAT, TS, LUI, STT, SUI, ISPREF, RXAUI, SAUI, SCUI, SDUI, SAB, TTY, CODE, STR, SRL, SUPPRESS, CVF) 
 
 ```
