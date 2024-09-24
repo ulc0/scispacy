@@ -6,14 +6,19 @@
 
 # COMMAND ----------
 
-dbutils.widgets.text("base",default="umls")
-BASE = dbutils.widgets.get("base")
-dbutils.widgets.text("version",default="umls")
-VERSION = dbutils.widgets.get("version")
-dbutils.widgets.text("source_dir",default="2024AA/META")
-SOURCE_DIR=dbutils.widgets.get("source_dir")
-dbutils.widgets.text("source",default="")
+dbutils.widgets.text("base","umls")
+#dbutils.widgets.text("version","umls")
+dbutils.widgets.text("source_dir","2024AA/META")
+dbutils.widgets.text("source","")
+
+
+# COMMAND ----------
+
 SOURCE=dbutils.widgets.get("source")
+BASE = dbutils.widgets.get("base")
+#VERSION = dbutils.widgets.get("version")
+SOURCE_DIR=dbutils.widgets.get("source_dir")
+
 
 # COMMAND ----------
 
@@ -21,7 +26,7 @@ SOURCE=dbutils.widgets.get("source")
 from scispacy.linking_utils import KnowledgeBase
 from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index
 from scispacy.linking import EntityLinker
-from scispacy.umls_utils import UmlsKnowledgeBase, RxNorm
+from scispacy.umls_utils import UmlsKnowledgeBase
 from scispacy.abbreviation import AbbreviationDetector
 
 #import scispacy.linking_utils as linking_utils 
@@ -38,9 +43,12 @@ temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
 print(temp_dir)
 os.environ["TEMP_DIR"]=temp_dir
 base_dir="/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data"
-kb_path=f"{base_dir}/jsonl/{BASE}_kb.jsonl"
-out_dir=base_dir+'/linker/{BASE}'
+kb_path=f"{base_dir}/jsonl/{lower(BASE)}_kb.jsonl"
+out_dir=base_dir+f"/linker/{lower(BASE)}"
+print(kb_path)
+print(out_dir)
 os.environ["OUT_DIR"]=out_dir
+os.environ["KB_DIR"]=kb_path
 
 
 # COMMAND ----------
@@ -66,7 +74,15 @@ proformaLinkerPaths = {
 # COMMAND ----------
 
 from export_umls_json import main as export_umls_json
-export_umls_json(meta_path=f"{SOURCE_DIR}",output_path=f"{base_dir}/jsonl/{SOURCE}_kb.jsonl")
+export_umls_json(meta_path=f"{base_dir}/{SOURCE_DIR}",output_path=f"{temp_dir}/{SOURCE}_kb.jsonl")
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC #mkdir /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/jsonl/
+# MAGIC cd $TEMP_DIR
+# MAGIC ls -ll
+# MAGIC cp *.jsonl $KB_DIR
 
 # COMMAND ----------
 
