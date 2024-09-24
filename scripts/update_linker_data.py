@@ -6,11 +6,22 @@
 
 # COMMAND ----------
 
+dbutils.widgets.text("base",default="umls")
+BASE = dbutils.widgets.get("base")
+dbutils.widgets.text("version",default="umls")
+VERSION = dbutils.widgets.get("version")
+dbutils.widgets.text("source_dir",default="2024AA/META")
+SOURCE_DIR=dbutils.widgets.get("source_dir")
+dbutils.widgets.text("source",default="")
+SOURCE=dbutils.widgets.get("source")
+
+# COMMAND ----------
+
 
 from scispacy.linking_utils import KnowledgeBase
 from scispacy.candidate_generation import CandidateGenerator, create_tfidf_ann_index
 from scispacy.linking import EntityLinker
-from scispacy.umls_utils import UmlsKnowledgeBase
+from scispacy.umls_utils import UmlsKnowledgeBase, RxNorm
 from scispacy.abbreviation import AbbreviationDetector
 
 #import scispacy.linking_utils as linking_utils 
@@ -26,9 +37,9 @@ import os, tempfile
 temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
 print(temp_dir)
 os.environ["TEMP_DIR"]=temp_dir
-base_dir='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/'
-kb_path=f"{base_dir}jsonl/umls_kb.jsonl"
-out_dir=base_dir+'linker/umls'
+base_dir="/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data"
+kb_path=f"{base_dir}/jsonl/{BASE}_kb.jsonl"
+out_dir=base_dir+'/linker/{BASE}'
 os.environ["OUT_DIR"]=out_dir
 
 
@@ -55,7 +66,7 @@ proformaLinkerPaths = {
 # COMMAND ----------
 
 from export_umls_json import main as export_umls_json
-export_umls_json(meta_path=f"{base_dir}2024AA/META",output_path=f"{base_dir}jsonl/umls_kb.jsonl")
+export_umls_json(meta_path=f"{SOURCE_DIR}",output_path=f"{base_dir}/jsonl/{SOURCE}_kb.jsonl")
 
 # COMMAND ----------
 
