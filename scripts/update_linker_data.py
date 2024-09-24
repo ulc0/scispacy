@@ -27,6 +27,7 @@ temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
 print(temp_dir)
 os.environ["TEMP_DIR"]=temp_dir
 base_dir='/Volumes/edav_dev_cdh_test/dev_cdh_ml_test/data/'
+kb_path=f"{base_dir}jsonl/umls_kb.jsonl"
 out_dir=base_dir+'linker/umls'
 os.environ["OUT_DIR"]=out_dir
 
@@ -55,12 +56,6 @@ proformaLinkerPaths = {
 
 from export_umls_json import main as export_umls_json
 export_umls_json(meta_path=f"{base_dir}2024AA/META",output_path=f"{base_dir}jsonl/umls_kb.jsonl")
-
-# COMMAND ----------
-
-# https://learn.microsoft.com/en-us/azure/databricks/files/
-kb_path=f"{base_dir}jsonl/umls_kb.jsonl"
-# this is done in create_linker kb = KnowledgeBase(file_path=kb_path)
 
 # COMMAND ----------
 
