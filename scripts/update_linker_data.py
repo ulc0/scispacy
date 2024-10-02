@@ -26,7 +26,7 @@ import os, tempfile
 temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
 print(temp_dir)
 os.environ["TEMP_DIR"]=temp_dir
-base_dir='/Volumes/edav_dev_cdh/cdh_ml/data'
+base_dir='/Volumes/edav_dev_cdh/cdh_ml/metadata_data'
 kb_path=f"{base_dir}/jsonl/umls_kb.jsonl"
 out_dir=base_dir+'/linker/umls'
 os.environ["OUT_DIR"]=out_dir
