@@ -3,7 +3,6 @@ import os, tempfile
 
 base_dir='/Volumes/edav_dev_cdh/cdh_ml/metadata_data'
 
-
 temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
 print(temp_dir)
 os.environ["TEMP_DIR"]=temp_dir
