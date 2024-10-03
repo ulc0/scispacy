@@ -1,4 +1,19 @@
 # Databricks notebook source
+import os, tempfile
+
+base_dir='/Volumes/edav_dev_cdh/cdh_ml/metadata_data'
+
+
+temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
+print(temp_dir)
+os.environ["TEMP_DIR"]=temp_dir
+kb_path=f"{base_dir}/jsonl/umls_kb.jsonl"
+out_dir=base_dir+'/linker/umls'
+os.environ["OUT_DIR"]=out_dir
+
+
+# COMMAND ----------
+
 # MAGIC %pip freeze
 # MAGIC #%pip install -r /Volumes/edav_dev_cdh_test/dev_cdh_ml_test/compute/requirements_scispacy_support.txt
 # MAGIC #%pip install scipy==1.10.1
@@ -17,19 +32,6 @@ from scispacy.abbreviation import AbbreviationDetector
 #import scispacy.candidate_generation as candidate_generation
 #import scispacy.umls_utils as umls_utils
 #import scispacy.linking as linking
-
-
-# COMMAND ----------
-
-import os, tempfile
-
-temp_dir = tempfile.mkdtemp() #.TemporaryDirectory()
-print(temp_dir)
-os.environ["TEMP_DIR"]=temp_dir
-base_dir='/Volumes/edav_dev_cdh/cdh_ml/metadata_data'
-kb_path=f"{base_dir}/jsonl/umls_kb.jsonl"
-out_dir=base_dir+'/linker/umls'
-os.environ["OUT_DIR"]=out_dir
 
 
 # COMMAND ----------
