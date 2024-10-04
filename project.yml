@@ -73,6 +73,8 @@ vars:
 directories: ["assets", "project_data", "output", "packages"]
 
 workflows:
+  justdownload:
+    - download
   small:
     - download
     - convert-shared
